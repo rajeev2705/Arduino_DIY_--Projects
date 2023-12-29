@@ -4,8 +4,11 @@
 #define in4 9
 #define F_led A3
 #define B_led A4
+
 #include<SoftwareSerial.h>
-SoftwareSerial myserial(A0, A1);
+
+SoftwareSerial Serial(A0, A1); //if Tx,Rx Pin Not working just replace all Serial.--> myserial
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(in1, OUTPUT);
@@ -17,42 +20,42 @@ void setup() {
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
 
-  //Serial.begin(9600);    // Serial monitor
-  myserial.begin(9600);  // for seing on serial monier
+  //myserial.begin(9600);    // Serial monitor
+  Serial.begin(9600);  // for seing on serial monier
 }
 
 void loop() {
   delayMicroseconds(1);
   // put your main code here, to run repeatedly:
-  if (myserial.available())   // serach for any signal receive on arduino
+  if (Serial.available())   // serach for any signal receive on arduino
   {
-    char v = myserial.read(); // read signal and save in v
-//    myserial.println(v);  // print v on serial moniter for knowingh if working or not
-    //  checker('6');
+    int v = Serial.read(); // read signal and save in v
+    Serial.println(v);  // print v on serial moniter for knowingh if working or not
+    checker(v);
     if ( v == 'U')
     {
 
       digitalWrite(B_led, HIGH);
-      myserial.println("Back Light ON");
+      Serial.println("Back Light ON");
 
     }
     if ( v == 'u')
     {
 
       digitalWrite(B_led, LOW);
-      myserial.println("Back Light OFF");
+      Serial.println("Back Light OFF");
     }
     if ( v == 'W')
     {
       digitalWrite(F_led, HIGH);
 
-      myserial.println("Front Light ON");
+      Serial.println("Front Light ON");
 
     }
     if ( v == 'w')
     {
       digitalWrite(F_led, LOW);
-      myserial.println("Front Light OFF");
+      Serial.println("Front Light OFF");
 
     }
     if ( v == 'F') // Forward
@@ -61,7 +64,7 @@ void loop() {
       digitalWrite(in2, LOW);
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      myserial.println("FORWARD");
+      Serial.println("FORWARD");
 
     }
     if ( v == 'B') // backward
@@ -70,7 +73,7 @@ void loop() {
       digitalWrite(in2, HIGH);
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH);
-      myserial.println("BACKWARD");
+      Serial.println("BACKWARD");
     }
     if ( v == 'R') // right
     {
@@ -78,7 +81,7 @@ void loop() {
       digitalWrite(in2, HIGH);
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      myserial.println("LEFT");
+      Serial.println("LEFT");
     }
     if ( v == 'H') //backward left
     {
@@ -86,7 +89,7 @@ void loop() {
       digitalWrite(in2, HIGH);
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      myserial.println("LEFT");
+      Serial.println("LEFT");
     }
     if ( v == 'I') //  forward right
     {
@@ -94,7 +97,7 @@ void loop() {
       digitalWrite(in2, HIGH);
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
-      myserial.println("LEFT");
+      Serial.println("LEFT");
     }
     if ( v == 'L') // left
     {
@@ -102,7 +105,7 @@ void loop() {
       digitalWrite(in2, LOW);
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH);
-      myserial.println("RIGHT");
+      Serial.println("RIGHT");
     }
     if ( v == 'J') // backward right
     {
@@ -110,7 +113,7 @@ void loop() {
       digitalWrite(in2, LOW);
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH);
-      myserial.println("RIGHT");
+      Serial.println("RIGHT");
     }
     if ( v == 'G') // forward left
     {
@@ -118,7 +121,7 @@ void loop() {
       digitalWrite(in2, LOW);
       digitalWrite(in3, LOW);
       digitalWrite(in4, HIGH);
-      myserial.println("RIGHT");
+      Serial.println("RIGHT");
     }
     if ( v == 'S') // Forward
     {
@@ -126,32 +129,38 @@ void loop() {
       digitalWrite(in2, LOW);
       digitalWrite(in3, LOW);
       digitalWrite(in4, LOW);
-      myserial.println("STOP");
+      Serial.println("STOP");
     }
   }
 
 }
-//int mapToPWM(int inputValue) {
-//  // Ensure the inputValue is within the valid range (0 to 10)
-//  inputValue = constrain(inputValue, 0, 9);
-//
-//  // Map the input range (0 to 10) to the output range (0 to 255)
-//  int pwmValue = map(inputValue, 0, 9, 0, 235);
-//
-//  return pwmValue;
-//}
-//
-//int checker(char input)
-//{
-//  byte putter ;
-//  if (input >='0' && input<= '9'){
-//   int temp  = input-'0';
-//   putter  = mapToPWM(temp);
-//   analogWrite(5,putter);
-//  analogWrite(6,putter);
-//  }
-//if (input == 'q'){
-//  analogWrite(5,255);
-//  analogWrite(6,255);
-//}
-//  }
+
+
+// Recieved data from transmiiter for Speed Control
+
+// int mapToPWM(int inputValue) {
+//   // Ensure the inputValue is within the valid range (0 to 10)
+//   inputValue = constrain(inputValue, 0, 9);
+
+//   // Map the input range (0 to 10) to the output range (0 to 255)
+//   int pwmValue = map(inputValue, 0, 9, 0, 230);
+
+//   return pwmValue;
+// }
+
+// int checker(int input)
+// {
+//   byte putter ;
+//   if (input >= 0 && input <= 9) {
+//     int temp = input;
+//     putter  = mapToPWM(temp);
+//     analogWrite(5, putter);
+//     analogWrite(6, putter);
+//     Serial.print(putter);
+//   }
+//   else {
+//     analogWrite(5, 255);
+//     analogWrite(6, 255);
+//     Serial.print(input);
+//   }
+// }
